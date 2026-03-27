@@ -1,0 +1,34 @@
+# Binaries (compiled output)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+node_modules/
+# Test binary
+*.test
+
+# Output folders
+bin/
+dist/
+build/
+
+# Dependency directories (if any)
+vendor/
+
+# Go workspace file
+go.work
+
+# Logs
+*.log
+
+# Environment files (VERY IMPORTANT)
+.env
+
+# IDE / Editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

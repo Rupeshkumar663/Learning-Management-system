@@ -1,0 +1,18 @@
+sabse pahle dependency install krna hai:-
+1.react-router-dom- routes bnane me help krega jaise jisse hm navigate ho payenge kisi dusre route pe.
+
+2.react-icons
+3.react-toastify-jo bhi notifications ate hain oo notifications ayenge.
+
+4.react-spinners:-jab data ane me time lgta hai to baha pe loading ka Animation dikhayi de uske liye ye package install krte hai.
+
+5.axios:-kisi bhi ApI ko fetch krne ke liye axios ko install krenge.
+
+6.react-redux:-state managemnet ke liye redux toolkit ka use krne bala hun isiliye ye install krna padta hai.
+
+7.@reduxjs/toolkit:-
+
+
+MAIN.JSX--------
+
+browser router ko lane ke liye BrowserRouter likhna pdha hai.
