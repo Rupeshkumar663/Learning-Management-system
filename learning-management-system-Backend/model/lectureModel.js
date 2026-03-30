@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const lectureSchema=new mongoose.Schema({
- title:{
+ lectureTitle:{
     type:String,
     required:true
   },

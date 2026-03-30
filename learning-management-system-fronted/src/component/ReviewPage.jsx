@@ -9,7 +9,7 @@ function ReviewPage() {
     const [latestReview,setLatestReview]=useState(null)
 
     useEffect(()=>{
-        setLatestReview(reviewData?.Slice(0,6))
+        setLatestReview(reviewData?.slice(0,6))
     },[reviewData])
   return (
     <div className='flex items-center justify-center flex-col'>

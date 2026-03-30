@@ -6,6 +6,7 @@ dotenv.config()
 export const searchWithAi=async(req,res)=>{
     try{
        const{input}=req.body
+       console.log(input)
        if(!input){
         return res.status(400).json({message:"Search query is required"})
        }
@@ -36,10 +37,14 @@ export const searchWithAi=async(req,res)=>{
            Query: ${input}
           `;
        const response = await ai.models.generateContent({
-         model: "gemini-3-flash-preview",
+         model: "gemini-1.5-flash",
          contents: prompt,
        });
-       const keyword=response.text
+      let keyword = response?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+
+if (!keyword) {
+  keyword = input;
+}
        const courses=await Course.find({
         isPublished:true,
         $or :[

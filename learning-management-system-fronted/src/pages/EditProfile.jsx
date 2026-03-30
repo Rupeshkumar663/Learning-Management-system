@@ -16,13 +16,14 @@ function EditProfile(){
     const [loading,setLoading]=useState(false)
     const dispatch=useDispatch()
 
-    const formData=new FormData()
-    formData.append("name",name)
-    formData.append("description",description)
-    formData.append("photoUrl",photoUrl)
+   
     const handleEditProfile=async()=>{
           setLoading(true)
         try{
+            const formData=new FormData()
+            formData.append("name",name)
+            formData.append("description",description)
+            formData.append("photoUrl",photoUrl)
             const result=await axios.post(serverUrl+"/api/user/profile",formData,{withCredentials:true})
             dispatch(setUserData(result.data))
             setLoading(false)

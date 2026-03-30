@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import uploadOnCloudinary from "../config/cloudinary.js";
 import Course from "../model/courseModel.js";
 import Lecture from "../model/lectureModel.js";
-
+import User from "../model/userModel.js"
 export const createCourse = async (req, res) => {
   try {
     const { title, category, description } = req.body;
@@ -28,7 +28,7 @@ export const createCourse = async (req, res) => {
 
 export const getPublishedCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ isPublished:true}).populate("lectures reviews");
+    const courses = await Course.find({ isPublished:true}).populate("lectures");
     if(!courses){
       return res.status(400).json({message:"Course are not found"})
     }
@@ -140,30 +140,28 @@ export const removeCourse = async (req, res) => {
 //for Lecture-------------------------
 export const createLecture = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { lectureTitle } = req.body;
     const { courseId } = req.params;
 
-    if (!title || !courseId) {
+    if (!lectureTitle || !courseId) {
       return res.status(400).json({ message: "lectureTitle is required" });
     }
-    const lecture = await Lecture.create({ title});
+
+    const lecture = await Lecture.create({lectureTitle});
     const course = await Course.findById(courseId);
     if (course) {
       course.lectures.push(lecture._id);
-      await course.save();
     }
-
-    const populatedCourse = await Course
-      .findById(courseId)
-      .populate("lectures");
+     await course.populate("lectures")
+    await  course.save()
 
     return res.status(201).json({
       lecture,
-      course: populatedCourse
+      course
     });
   } catch (error) {
     return res.status(500).json({
-      message: `Failed to create Lecture ${error.message}`,
+      message: `Failed to create Lecture ${error.message}`
     });
   }
 };
@@ -173,17 +171,14 @@ export const getCourseLecture = async (req, res) => {
   try {
     const { courseId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).json({ message: "Invalid courseId" });
-    }
-
     const course = await Course
       .findById(courseId)
-      .populate("lectures");
-
+      
     if (!course) {
       return res.status(404).json({ message: "Course is not found" });
     }
+     await course.populate("lectures");
+     await course.save()
 
     return res.status(200).json({ course });
   } catch (error) {
@@ -192,7 +187,6 @@ export const getCourseLecture = async (req, res) => {
     });
   }
 };
-
 
 export const editLecture = async (req, res) => {
   try {
@@ -204,7 +198,8 @@ export const editLecture = async (req, res) => {
       return res.status(404).json({ message: "Lecture is not found" });
     }
 
-    if (req.file) {
+    let videoUrl
+    if (req.file && req.file.path) {
       const videoUrl = await uploadOnCloudinary(req.file.path);
       lecture.videoUrl = videoUrl;
     }
@@ -213,13 +208,17 @@ export const editLecture = async (req, res) => {
       lecture.title = lectureTitle;
     }
 
-    lecture.isPreviewFree = isPreviewFree;
-    await lecture.save(); 
+    if (typeof isPreviewFree !== "undefined") {
+      lecture.isPreviewFree = isPreviewFree === "true";
+    }
+
+    await lecture.save();
 
     return res.status(200).json({ lecture });
   } catch (error) {
+
     return res.status(500).json({
-      message: `Failed to Edit Lecture ${error.message}`,
+      message: `Failed to Edit Lecture`,
     });
   }
 };
@@ -254,7 +253,11 @@ export const removeLecture = async (req, res) => {
 export const getCreatorById=async(req,res)=>{
   try{
      const {userId}=req.body
-     const user=await user.findById(userId).select("-password")
+        
+       if (typeof userId === "object") {
+      userId = userId._id;
+    }
+     const user=await User.findById(userId).select("-password")
      if(!user){
       return res.status(404).json({message:"User is not Found"})
      }

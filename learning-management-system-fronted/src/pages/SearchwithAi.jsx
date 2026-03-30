@@ -18,11 +18,12 @@ function SearchwithAi() {
         let utterance=new SpeechSynthesisUtterance(message)
         window.speechSynthesis.speak(utterance)
     }
-    const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition=new SpeechRecognition()
-    if(!recognition){
-        toast.error("Speech recognition not supported")
-    }
+    const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+  toast.error("Speech recognition not supported");
+}
+
+    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
    
     const handleSearch=async()=>{
         if(!recognition)
@@ -39,7 +40,7 @@ function SearchwithAi() {
 
     const handleRecommendation=async(query)=>{
        try{
-         const result=await axios.post(serverUrl+"/course/search",{input:query},{withCredentials:true})
+         const result=await axios.post(serverUrl+"/api/course/search",{input:query},{withCredentials:true})
          console.log(result.data)
          setRecommendations(result.data)
          setListening(false);
@@ -59,7 +60,7 @@ function SearchwithAi() {
         {/*search container */}
         <div className='bg-white shadow-xl rounded-3xl p-6 sm:p-8 w-full max-w-2xl text-center relative'>
           <FaArrowLeftLong className='text-[black] w-[22px] h-[22px] cursor-pointer absolute'/>
-          <h1 className='text-2xl sm:text-3xl font-bold text-gray-600 mb-6 flex items-center justify-center gap-2'><img src={ai} alt="" className='w-8 h-8 sm:w-[30px] sm:h-[30px]'/>Search with <span className='text-[#CB99C7'>AI</span></h1>
+          <h1 className='text-2xl sm:text-3xl font-bold text-gray-600 mb-6 flex items-center justify-center gap-2'><img src={ai} alt="" className='w-8 h-8 sm:w-[30px] sm:h-[30px]'/>Search with <span className='text-[#CB99C7]'>AI</span></h1>
 
           <div className='flex items-center bg-gray-700 rounded-full overflow-hidden shadow-lg relative w-full'>
             <input type="text" className='flex-grow px-4 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none text-sm sm:text-base'

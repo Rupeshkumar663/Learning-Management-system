@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {serverUrl} from "../App";
 import {setreviewData} from "../redux/reviewSlice";
 
-const useGetAllReviews=()=>{
+export const useGetAllReviews=()=>{
 
   const dispatch=useDispatch();
 
@@ -27,4 +27,3 @@ const useGetAllReviews=()=>{
 
 };
 
-export default useGetAllReviews;

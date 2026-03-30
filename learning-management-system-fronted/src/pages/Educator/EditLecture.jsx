@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,63 +15,49 @@ function EditLecture() {
 
   const { lectureData } = useSelector((state) => state.lecture);
 
-  const selectedLecture = lectureData?.find(
-    (l) => l._id === lectureId
+  const selectedLecture = lectureData?.find(lecture=>
+    lecture._id === lectureId
   );
 
   // ✅ FIX: never undefined
-  const [lectureTitle, setLectureTitle] = useState("");
-  const [videoFile, setVideoFile] = useState(null);
+  const [lectureTitle, setLectureTitle] = useState(selectedLecture.lectureTitle);
+  const [videoUrl, setVideoUrl] = useState(null);
   const [isPreviewFree, setIsPreviewFree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
 
-  // ✅ FIX: correct field name + fallback
-  useEffect(() => {
-    if (selectedLecture) {
-      setLectureTitle(selectedLecture.title || "");
-      setIsPreviewFree(selectedLecture.isPreviewFree || false);
-    }
-  }, [selectedLecture]);
-
-  // UPDATE LECTURE
+  const formData = new FormData();
+  formData.append("lectureTitle", lectureTitle);
+  formData.append("videoUrl", videoUrl);
+  formData.append("isPreviewFree",isPreviewFree); 
+  
+  
   const handleEditLecture = async () => {
     if (!lectureTitle.trim()) {
       toast.error("Lecture title is required");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("lectureTitle", lectureTitle);
-    formData.append("isPreviewFree", String(isPreviewFree)); // ✅ safe
-    if (videoFile) formData.append("video", videoFile); // ✅ correct key
-
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${serverUrl}/api/course/editlecture/${lectureId}`,
+      const result = await axios.post(serverUrl +
+        `/api/course/editlecture/${lectureId}`,
         formData,
         { withCredentials: true }
       );
 
-      // ✅ FIX: backend sends { lecture }
-      dispatch(
-        setLectureData(
-          lectureData.map((l) =>
-            l._id === lectureId ? res.data.lecture : l
-          )
-        )
-      );
+      dispatch(setLectureData([...lectureData,result.data]));
 
       toast.success("Lecture updated successfully");
-      navigate(`/createlecture/${courseId}`);
+      //navigate(`/createlecture/${courseId}`);
+      navigate(`/courses`);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast.error(
         error?.response?.data?.message || "Update failed"
       );
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   // DELETE LECTURE
@@ -82,22 +68,16 @@ function EditLecture() {
         `${serverUrl}/api/course/removelecture/${lectureId}`,
         { withCredentials: true }
       );
-
-      dispatch(
-        setLectureData(
-          lectureData.filter((l) => l._id !== lectureId)
-        )
-      );
-
+      setRemoveLoading(false); 
+    
       toast.success("Lecture removed");
       navigate(`/createlecture/${courseId}`);
     } catch (error) {
+      setRemoveLoading(false);
       toast.error(
         error?.response?.data?.message || "Delete failed"
       );
-    } finally {
-      setRemoveLoading(false);
-    }
+    } 
   };
 
   return (
@@ -118,7 +98,7 @@ function EditLecture() {
         <button
           onClick={removeLecture}
           disabled={removeLoading}
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm"
+          className=" mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-all text-sm"
         >
           {removeLoading ? (
             <ClipLoader size={18} color="white" />
@@ -131,25 +111,25 @@ function EditLecture() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Lecture Title *
+              LectureTitle * 
             </label>
             <input
               type="text"
-              value={lectureTitle} // ✅ always controlled
+              value={lectureTitle} 
               onChange={(e) => setLectureTitle(e.target.value)}
-              className="w-full p-3 border rounded-md text-sm focus:ring-2 focus:ring-black"
+              className="w-full p-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-[black] focus:outline-none" required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Video (optional)
+            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="">
+              Video *
             </label>
             <input
               type="file"
               accept="video/*"
-              onChange={(e) => setVideoFile(e.target.files[0])}
-              className="w-full border rounded-md p-2"
+              onChange={(e) => setVideoUrl(e.target.files[0])}
+              className="w-full border border-gray-300  rounded-md p-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-700 file:text-[white] hover:file:bg-gray-500" required
             />
           </div>
 
@@ -157,17 +137,17 @@ function EditLecture() {
             <input
               type="checkbox"
               checked={isPreviewFree}
-              onChange={(e) => setIsPreviewFree(e.target.checked)} // ✅ FIX
-              className="accent-black h-4 w-4"
+              onChange={() => setIsPreviewFree(prev=>!prev)} 
+              className="accent-[black] h-4 w-4"
             />
-            <label className="text-sm text-gray-700">
+            <label htmlFor="isFree" className="text-sm text-gray-700">
               Is this video FREE
             </label>
           </div>
 
           {loading && (
             <p className="text-sm text-gray-500">
-              Uploading video… please wait
+              Uploading vide... please wait.
             </p>
           )}
         </div>
@@ -176,7 +156,7 @@ function EditLecture() {
         <button
           onClick={handleEditLecture}
           disabled={loading}
-          className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-700"
+          className="w-full bg-black text-white py-3 rounded-md text-sm font-medium hover:bg-gray-700 transition"
         >
           {loading ? (
             <ClipLoader size={20} color="white" />

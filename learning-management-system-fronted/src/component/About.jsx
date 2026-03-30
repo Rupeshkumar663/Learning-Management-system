@@ -13,10 +13,10 @@ function About() {
         
         <img src={about} alt="" className='w-[80%] h-[90%] rounded-lg'/>
         
-        <div className='max-w-[350px] mx-auto p-4 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'>
+        <div className="absolute top-[70%] left-[80%] translate-x-[-50%] translate-y-[-50%] w-[180px] md:w-[220px] lg:w-[260px] z-20">
             <video 
               src={video} 
-              className='w-full rounded-xl shadow-lg border-2 border-white' 
+              className="w-full h-[120px] md:h-[140px] lg:h-[160px] object-cover rounded-xl shadow-xl border-2 border-white"
               controls 
               autoPlay 
               loop

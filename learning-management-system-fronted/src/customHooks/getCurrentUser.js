@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { setUserData } from "../redux/userSlice"
 import { serverUrl } from "../App"
 
-const useCurrentUser = () => {
+export const useCurrentUser = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -13,16 +13,12 @@ const useCurrentUser = () => {
         const result = await axios.get(`${serverUrl}/api/user/getcurrentuser`, {
           withCredentials: true  
         })
-        
         dispatch(setUserData(result.data.user)) 
-
-      } catch (error) {
+      }catch(error){
         console.log("User not logged in", error.response?.data);
       }
     }
-
     fetchUser()
   }, [dispatch])
 }
 
-export default useCurrentUser

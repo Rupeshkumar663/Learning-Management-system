@@ -8,7 +8,7 @@ function ReviewCard({comment,rating,photoUrl,name,description,courseTitle}) {
         <div className='flex items-center mb-3 text-yellow-400 text-sm'>
             {
                 Array(5).fill(0).map((_,i)=>(
-                    <span key={1}>
+                    <span key={i}>
                         {i<rating ? <FaStar/>:<FaRegStar/>}
                     </span>
                 ))

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setCreatorCourseData } from "../redux/courseSlice";
 import { serverUrl } from "../App";
 
-const useCreatorCourse = () => {
+export const useCreatorCourse = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,4 +26,4 @@ const useCreatorCourse = () => {
   }, [dispatch]);
 };
 
-export default useCreatorCourse;
+

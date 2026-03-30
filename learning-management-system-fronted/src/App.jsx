@@ -12,7 +12,8 @@ import Forgetpassword from "./pages/ForgetPassword";
 import EditProfile from "./pages/EditProfile";
 import AllCourses from "./pages/AllCourses";
 import ViewCourse from "./pages/ViewCourse";
-
+import ViewLectures from "./pages/ViewLectures";
+import MyEnrolledCourses from "./pages/MyEnrolledCourses";
 // educator pages
 import Dashboard from "./pages/Educator/Dashboard";
 import Courses from "./pages/Educator/Courses";
@@ -137,7 +138,7 @@ function App() {
  
          <Route path="/viewlecture/:courseId" element={ userData?(<ViewLectures/>):( <Navigate to="/signup" />)}/>
 
-           <Route path="/mycourses/:courseId" element={ userData?(<MyEnrolledCourses/>):( <Navigate to="/signup" />)}/>
+           <Route path="/mycourses" element={ userData?(<MyEnrolledCourses/>):( <Navigate to="/signup" />)}/>
             <Route path='/search' element={ userData?(<SearchwithAi/>):( <Navigate to="/signup" />)}/>
 
       </Routes>
