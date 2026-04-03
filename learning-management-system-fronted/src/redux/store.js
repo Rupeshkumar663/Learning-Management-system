@@ -4,9 +4,9 @@ import courseSlice from "./courseSlice";
 import lectureSlice from "./lectureSlice";
 import reviewSlice from "./reviewSlice";
 export const store = configureStore({
-  reducer: {
-    user: userSlice,
-    course: courseSlice,
+  reducer:{
+    user:userSlice,
+    course:courseSlice,
     lecture:lectureSlice,
     review:reviewSlice,
   },

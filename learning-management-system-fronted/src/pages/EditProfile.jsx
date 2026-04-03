@@ -16,7 +16,6 @@ function EditProfile(){
     const [loading,setLoading]=useState(false)
     const dispatch=useDispatch()
 
-   
     const handleEditProfile=async()=>{
           setLoading(true)
         try{
@@ -29,7 +28,6 @@ function EditProfile(){
             setLoading(false)
             navigate("/")
             toast.success("Profile Updated")
-         
         } catch(error){
            setLoading(false)
            console.log(error)

@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-const lectureSlice = createSlice({
-  name: "lecture",
+const lectureSlice=createSlice({
+  name:"lecture",
   initialState: {
-    
     lectureData:[]
   },
   reducers:{

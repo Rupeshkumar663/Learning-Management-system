@@ -82,10 +82,6 @@ function ExploreCourses(){
                     </div>
                      AI Tools
                 </div>
-
-            
-
-                
             </div>
         </div>
     )

@@ -34,8 +34,6 @@ function SignUp(){
          setLoading(false)
          toast.error(error.response.data.message)
       }
-
-
    }
     const googleSignUp=async()=>{
       try{
@@ -62,8 +60,6 @@ function SignUp(){
                 <h2 className='text-[#999797] text-[18px]'>Create your account</h2>
                </div>
 
-        
-
                <div className='flex flex-col gap-1 w-[80%] items-start justify-center px-3'>
                 <label htmlFor="name" className='font-semibold'>Name</label>
                 <input id='name' type="text" className='border-1 w-[100%] h-[35px] border-[#e7e6e6] text-[15px] px-[20px]' placeholder='Your name'onChange={(e)=>setName(e.target.value)} value={name}/>
@@ -73,7 +69,6 @@ function SignUp(){
                 <label htmlFor="email" className='font-semibold'>email</label>
                 <input id='email' type="email" className='border-1 w-[100%] h-[35px] border-[#e7e6e6] text-[15px] px-[20px]' placeholder='Your Email'onChange={(e)=>setEmail(e.target.value)} value={email}/>
                </div>
-
 
                <div className='flex flex-col gap-1 w-[80%] items-start justify-center px-3 relative'>
                 <label htmlFor="password" 
@@ -88,17 +83,13 @@ function SignUp(){
                 <span className={`px-[10px] py-[5px] border-[2px] border-[#e7e6e6] rounded-xl cursor-pointer hover:border-black ${role==="educator"?"border-black":"border-[#646464]"}`} onClick={()=>setRole("educator")}>Educator</span>
                </div>
 
-
-
                 <button className='w-[80%] h-[40px] bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]'onClick={handleSignup} disabled={loading}>{loading?<ClipLoader size={30} color='white'/>:"SignUp"}</button>
               
               <div className='w-[80%] flex items-center gap-2'>
                <div className='w-[25%] h-[0.5px] bg-[#c4c4c4]'></div>
                <div className='w-[50%] text-[#6f6f6f] flex items-center justify-center'>Or continue</div>
                <div className='w-[25%] h-[0.5px] bg-[#c4c4c4]'></div>
-
               </div>
-
 
               <div className='w-[80%] h-[40px] border-1 border-[black] rounded-[5px] flex items-center justify-center' onClick={googleSignUp}>
                 <img src={google} className='w-[25px]' alt="" />

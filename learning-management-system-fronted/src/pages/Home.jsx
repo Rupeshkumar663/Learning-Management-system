@@ -20,7 +20,6 @@ function Home() {
       <div className='w-[100%] lg:h-[140vh] h-[70vh] relative'>
         <Nav/>
         <img src={home} className='object-cover md:object-fill w-[100%] lg:h-[100%] h-[50vh]' alt="" />
-
         <span className='lg:text-[70px] absolute md:text-[40px] lg:top-[10%] top-[15%] w-[100%] flex items-center justify-center text-white font-bold text-[20px]'>Grow Your Skills to Advance </span>
         <span className='lg:text-[70px] text-[20px] md:text-[40px] absolute lg:top-[18%] top-[20%] w-[100%] flex items-center  justify-center text-white font-bold'>Your Career path</span>
         <div className='absolute lg:top-[30%] top-[75%] md:top-[80%] w-[100%] flex items-center justify-center gap-3 flex-wrap'>

@@ -9,15 +9,13 @@ import { setLectureData } from "../redux/lectureSlice";
 import { toast } from "react-toastify";
 import { serverUrl } from "../App";
 
-function CreateLecture() {
-  const navigate = useNavigate();
-  const { courseId } = useParams();
-  const dispatch = useDispatch();
-
-  const { lectureData } = useSelector((state) => state.lecture);
-
-  const [lectureTitle, setLectureTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+function CreateLecture(){
+  const navigate=useNavigate();
+  const { courseId }=useParams();
+  const dispatch=useDispatch();
+  const { lectureData }=useSelector((state)=>state.lecture);
+  const [lectureTitle,setLectureTitle]=useState("");
+  const [loading,setLoading]=useState(false);
 
   // ================= CREATE LECTURE =================
   const handleCreateLecture = async () => {
@@ -25,15 +23,9 @@ function CreateLecture() {
       toast.error("Lecture title is required");
       return;
     }
-
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${serverUrl}/api/course/createlecture/${courseId}`,
-        { lectureTitle },
-        { withCredentials: true }
-      );
-   
+      const res=await axios.post(`${serverUrl}/api/course/createlecture/${courseId}`,{ lectureTitle },{ withCredentials: true });
       dispatch(setLectureData([...(lectureData || []), res.data.lecture]));
       setLoading(false)
       toast.success("Lecture added");
@@ -45,21 +37,17 @@ function CreateLecture() {
       );
     } 
   };
-useEffect(() => {
-    const getCourseLectures = async () => {
-      try {
-        const res = await axios.get(
-          `${serverUrl}/api/course/courselecture/${courseId}`,
-          { withCredentials: true }
-        );
+useEffect(()=>{
+    const getCourseLectures=async()=>{
+      try{
+        const res=await axios.get(`${serverUrl}/api/course/courselecture/${courseId}`,{ withCredentials: true });
         dispatch(setLectureData(res.data.course.lectures));
       } catch (error) {
         console.log(error);
       }
     };
     getCourseLectures();
-  }, [courseId, dispatch]);
-
+  },[courseId,dispatch]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -73,7 +61,6 @@ useEffect(() => {
             Enter the title and add your video lectures to enhance your course content.
           </p>
         </div>
-
         <input
           type="text"
           className="w-full border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-black mb-4"
@@ -81,7 +68,6 @@ useEffect(() => {
           value={lectureTitle}
           onChange={(e) => setLectureTitle(e.target.value)}
         />
-
         <div className="flex gap-4 mb-6">
           <button
             className="flex items-center gap-2 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-sm font-medium"
@@ -89,7 +75,6 @@ useEffect(() => {
           >
             <FaArrowLeftLong /> Back to Course
           </button>
-
           <button
             className="px-5 py-2 rounded-md bg-black text-white hover:bg-gray-700 transition-all text-sm shadow"
             disabled={loading}
@@ -98,12 +83,10 @@ useEffect(() => {
             {loading ? <ClipLoader size={18} color="white" /> : "+ Create Lecture"}
           </button>
         </div>
-
         <div className="space-y-2">
           {lectureData?.length === 0 && (
             <p className="text-sm text-gray-500">No lectures added yet</p>
           )}
-
           {lectureData?.map((lecture, index) => (
             <div
               key={lecture._id}
@@ -112,7 +95,6 @@ useEffect(() => {
               <span>
                 Lecture {index + 1}: {lecture.lectureTitle}
               </span>
-
               <FaEdit
                 className="text-gray-500 hover:text-gray-700 cursor-pointer"
                 onClick={() =>

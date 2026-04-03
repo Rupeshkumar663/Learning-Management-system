@@ -15,13 +15,11 @@ function Forgetpassword(){
     const [conPassword,setconPassword]=useState("")
     const [loading,setLoading]=useState(false)
     
-
     //for step 1---------
     const sendOtp=async()=>{
        setLoading(true)
        try{
          const result=await axios.post(serverUrl +"/api/auth/sendotp",{email} , {withCredentials:true})
-         console.log(result.data)
          setLoading(false)
          setStep(2)
          toast.success(result.data.message)
@@ -36,7 +34,6 @@ function Forgetpassword(){
         setLoading(true)
         try{
          const result=await axios.post(serverUrl + "/api/auth/verifiedotp",{email,otp}, {withCredentials:true})
-         console.log(result.data)
          setLoading(false)
          setStep(3)
          toast.success(result.data.message)

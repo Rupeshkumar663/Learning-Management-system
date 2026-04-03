@@ -21,9 +21,6 @@ function Login(){
   const navigate=useNavigate()
   const dispatch=useDispatch()
 
-
-
-
   const handleLogin=async(e)=>{
     e.preventDefault()
     if(!email || !password){
@@ -63,7 +60,6 @@ function Login(){
 
   return (
     <div className='bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center '>
-      
       <form className='w-[90%] md:w-200 h-150 bg-[white] shadow-xl rounded-2xl flex relative' onSubmit={handleLogin}>
          <FaArrowLeftLong className='absolute top-[16%] md:top-[6%] left-[5%] w-[22px] h-[22px] cursor-pointer' onClick={()=>navigate("/")}/>
         {/* left div */}

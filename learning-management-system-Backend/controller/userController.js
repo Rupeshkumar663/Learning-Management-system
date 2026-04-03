@@ -1,18 +1,20 @@
 import uploadOnCloudinary from "../config/cloudinary.js"
 import User from "../model/userModel.js"
 
-export const getCurrentUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.userId).select("-password").populate("enrolledCourses")
-    if (!user) {
-      return res.status(404).json({ message: "User not found" })
+//getCurrentUser-----------------------------------------------------------------
+export const getCurrentUser=async(req,res)=>{
+  try{
+    const user=await User.findById(req.userId).select("-password").populate("enrolledCourses")
+    if(!user){
+      return res.status(404).json({ message:"User not found"})
     }
     return res.status(200).json(user)
-  } catch (error) {
+  } catch(error){
     return res.status(500).json({ message: `GetCurrentUser error: ${error.message}` })
   }
 }
 
+//UpdateProfile-----------------------------------------------------------------
 export  const updateProfile=async(req,res)=>{
   try{
     const userId=req.userId
@@ -28,6 +30,6 @@ export  const updateProfile=async(req,res)=>{
     await user.save()
     return res.status(200).json(user)
   }catch(error){
-           return res.status(500).json({ message: `updateProfile error: ${error.message}` })
+    return res.status(500).json({ message: `updateProfile error: ${error.message}` })
   }
 }

@@ -9,7 +9,9 @@ function ReviewPage() {
     const [latestReview,setLatestReview]=useState(null)
 
     useEffect(()=>{
-        setLatestReview(reviewData?.slice(0,6))
+      if(reviewData){
+      setLatestReview(reviewData.slice(0, 6));
+   }
     },[reviewData])
   return (
     <div className='flex items-center justify-center flex-col'>
@@ -19,7 +21,7 @@ function ReviewPage() {
       </span>
       <div  className='w-[100%] min-[100vh] flex items-center justify-center flex-wrap gap-[50px] lg:p-[50px] md:p-[30px] p-[10px] mb-[40px]'>
         {
-            latestReview?.map((review,index)=>(
+            latestReview ?.filter(r => r?.user && r?.course).map((review,index)=>(
                 <ReviewCard key={index} comment={review.comment} rating={review.rating} photoUrl={review.user.photoUrl} courseTitle={review.course.title} description={review.user.description} name={review.user.name}/>
             ))
         }

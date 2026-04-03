@@ -1,5 +1,5 @@
 import express from "express"
-import { createCourse, createLecture, editCourse, editLecture, getCourseById, getCourseLecture, getCreaterCourses, getPublishedCourses, removeCourse, removeLecture,getCreatorById} from "../controller/courseController.js"
+import { createCourse, createLecture,editCourse,editLecture,getCourseById,getCourseLecture,getCreaterCourses, getPublishedCourses,removeCourse,removeLecture,getCreatorById} from "../controller/courseController.js"
 import isAuth from "../middleware/isAuth.js"
 import {upload }from "../middleware/multer.js"
 import { searchWithAi } from "../controller/searchController.js"

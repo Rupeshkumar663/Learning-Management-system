@@ -26,40 +26,95 @@ function EditLecture() {
   const [loading, setLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
 
-  const formData = new FormData();
-  formData.append("lectureTitle", lectureTitle);
-  formData.append("videoUrl", videoUrl);
-  formData.append("isPreviewFree",isPreviewFree); 
-  
-  
   const handleEditLecture = async () => {
-    if (!lectureTitle.trim()) {
-      toast.error("Lecture title is required");
-      return;
-    }
 
-    setLoading(true);
-    try {
-      const result = await axios.post(serverUrl +
-        `/api/course/editlecture/${lectureId}`,
+  console.log("FINAL VIDEO STATE:", videoUrl);
+
+  if (!lectureTitle.trim()) {
+    toast.error("Lecture title is required");
+    return;
+  }
+
+  if (!videoUrl) {
+    return toast.error("Please select a video file first");
+  }
+
+  setLoading(true);
+
+  try {
+    let responseData = null;
+
+    // 🔥 SMALL VIDEO (multer)
+    if (videoUrl.size < 50 * 1024 * 1024) {
+
+      const formData = new FormData();
+      formData.append("lectureTitle", lectureTitle);
+      formData.append("videoUrl", videoUrl);
+      formData.append("isPreviewFree", isPreviewFree);
+
+      const result = await axios.post(
+        `${serverUrl}/api/course/editlecture/${lectureId}`,
         formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+
+      responseData = result.data.lecture;
+
+    } else {
+
+      // 🔥 LARGE VIDEO (DIRECT CLOUDINARY - SIMPLE)
+      const formData = new FormData();
+      formData.append("file", videoUrl);
+      formData.append("upload_preset", "my_preset"); // 🔥 IMPORTANT
+      formData.append("resource_type", "video");
+
+      const uploadRes = await axios.post(
+        `https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/video/upload`,
+        formData,
+        {
+          timeout: 1000 * 60 * 30
+        }
+      );
+
+      const finalVideoUrl = uploadRes.data.secure_url;
+
+      const saveRes = await axios.post(
+        `${serverUrl}/api/course/editlecture/${lectureId}`,
+        {
+          lectureTitle,
+          videoUrl: finalVideoUrl,
+          isPreviewFree
+        },
         { withCredentials: true }
       );
 
-      dispatch(setLectureData([...lectureData,result.data]));
+      responseData = saveRes.data.lecture;
+    }
 
-      toast.success("Lecture updated successfully");
-      //navigate(`/createlecture/${courseId}`);
-      navigate(`/courses`);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      toast.error(
-        error?.response?.data?.message || "Update failed"
-      );
-    } 
-  };
+    // 🔥 REDUX UPDATE
+    const updatedLectures = lectureData.map((lec) =>
+      lec._id === lectureId ? responseData : lec
+    );
 
+    dispatch(setLectureData(updatedLectures));
+
+    toast.success("Lecture updated successfully");
+    navigate(`/createlecture/${courseId}`);
+
+  } catch (error) {
+    console.log(error);
+    toast.error("Upload failed");
+  }
+
+  setLoading(false);
+};
+  
+ 
   // DELETE LECTURE
   const removeLecture = async () => {
     setRemoveLoading(true);
@@ -128,7 +183,14 @@ function EditLecture() {
             <input
               type="file"
               accept="video/*"
-              onChange={(e) => setVideoUrl(e.target.files[0])}
+                   onChange={(e) => {const file = e.target.files[0];
+                    if(!file){
+                     console.log("NO FILE");
+                     return;
+                   }
+                  console.log("FILE SELECTED:", file);
+                  setVideoUrl(file);
+               }}
               className="w-full border border-gray-300  rounded-md p-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-700 file:text-[white] hover:file:bg-gray-500" required
             />
           </div>

@@ -19,11 +19,11 @@ function SearchwithAi() {
         window.speechSynthesis.speak(utterance)
     }
     const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
+    if(!SpeechRecognition){
   toast.error("Speech recognition not supported");
 }
 
-    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+    const recognition=SpeechRecognition ? new SpeechRecognition() : null;
    
     const handleSearch=async()=>{
         if(!recognition)
@@ -41,7 +41,6 @@ function SearchwithAi() {
     const handleRecommendation=async(query)=>{
        try{
          const result=await axios.post(serverUrl+"/api/course/search",{input:query},{withCredentials:true})
-         console.log(result.data)
          setRecommendations(result.data)
          setListening(false);
          if(result.data.length>0){
@@ -80,7 +79,7 @@ function SearchwithAi() {
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8'>
                   {
                      recommendations?.map((course,index)=>(
-                        <div key={index} className='bg-white text-black p-5 rounded-2xl shadow-md hover:shadow-indigo-500/30  transition-all duration-200 border border-gray-200 cursor-pointer hover:bg-gray-200' onClick={()=>navigate(`viewcourse/${course._id}`)}>
+                        <div key={index} className='bg-white text-black p-5 rounded-2xl shadow-md hover:shadow-indigo-500/30  transition-all duration-200 border border-gray-200 cursor-pointer hover:bg-gray-200' onClick={()=>navigate(`/viewcourse/${course._id}`)}>
                            <h2 className='text-lg font-bold sm:text-xl'>{course.title}</h2>
                            <p className='text-sm text-gray-600 mt-1'>{course.category}</p>
                         </div>

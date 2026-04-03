@@ -18,7 +18,6 @@ function Nav() {
   const handleLogOut=async()=>{
     try{
       const result = await axios.post(serverUrl + "/api/auth/logout", { withCredentials: true })
-
       dispatch(setUserData(null))
       console.log(result.data)
       toast.success("logout Successfully")
@@ -47,7 +46,6 @@ function Nav() {
         </div>}
 
         {userData?.role  ==="educator" && <div className='px-[20px] py-[10px] border-2 lg:border-white border-black lg:text-white bg-[black] rounded-[10px] text-[18px] font-light  cursor-pointer'onClick={()=>navigate("/dashboard")}>Dashboard</div>}
-
 
       {!userData ?<span className='px-[20px] py-[10px] border-2 border-white text-white  rounded-[10px] text-[18px] font-light  cursor-pointer bg-[#000000d5]'onClick={()=>navigate("/login")}>Login</span>:
         <span className='px-[20px] py-[10px] bg-white text-black  rounded-[10px] shadow-sm shadow-black text-[18px]   cursor-pointer'onClick={handleLogOut}>LogOut</span>}

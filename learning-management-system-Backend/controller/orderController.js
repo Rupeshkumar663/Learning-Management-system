@@ -8,6 +8,7 @@ const RazorPayInstance=new razorpay({
   key_secret:process.env.RAZORPAY_KEY_SECRET
 })
 
+//razorpayorder-----------------------------------------------------------------
 export const RazorpayOrder=async(req,res)=>{
     try{
         const {courseId}=req.body
@@ -27,18 +28,17 @@ export const RazorpayOrder=async(req,res)=>{
     }
 }
 
+//verifyPayment-----------------------------------------------------------------
 export const verifyPayment=async(req,res)=>{
    try{
     const {courseId,userId,razorpay_order_id}=req.body
     const orderInfo=await RazorPayInstance.orders.fetch(razorpay_order_id)
-     
     if(orderInfo.status==='paid'){
         const user=await User.findById(userId)
         if(!user.enrolledCourses.includes(courseId)){
              user.enrolledCourses.push(courseId)
             await user.save()
         }
-
         const course=await Course.findById(courseId).populate("lectures")
         if(!course.enrolledStudents.includes(userId)){
              course.enrolledStudents.push(userId)
@@ -49,8 +49,6 @@ export const verifyPayment=async(req,res)=>{
     else{
         return res.status(400).json({message:"payment failed"})
     }
-
-
    } catch(error){
          return res.status(500).json({message:`Internal server error during payment verification ${error}`})
    }
