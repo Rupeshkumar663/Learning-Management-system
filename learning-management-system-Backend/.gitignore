@@ -8,6 +8,9 @@ node_modules/
 # Test binary
 *.test
 
+public/*.mp4
+public/*.mov
+public/*.avi
 # Output folders
 bin/
 dist/

@@ -29,7 +29,7 @@ import {useGetPublishedCourse as getPublishedCourse} from "./customHooks/getPubl
 import {useGetAllReviews as getAllReviews} from "./customHooks/getAllReviews";
 import ScrollToTop from "./component/ScrollToTop";
 import SearchwithAi from "./pages/SearchwithAi";
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://lms-backend-k61v.onrender.com";
 
 function App() {
   getCurrentUser();
