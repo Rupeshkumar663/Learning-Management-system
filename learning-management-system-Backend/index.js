@@ -16,8 +16,7 @@ const app=express()
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors({
-  origin:["http://localhost:5173",
-    "https://learning-management-system-1-68gx.onrender.com"],
+  origin:"https://learning-management-system-1-68gx.onrender.com",
   credentials: true
 }));
 
