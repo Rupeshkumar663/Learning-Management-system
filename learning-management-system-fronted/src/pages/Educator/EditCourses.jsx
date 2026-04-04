@@ -121,7 +121,7 @@ function EditCourses(){
             < FaArrowLeftLong className='top-[-20%] md:top-[20%] absolute left-[0] md:left-[2%] w-[22px] h-[22px] cursor-pointer'onClick={()=>navigate("/courses")}/>
             <h2 className='text-2xl font-semibold md:pl-[60px]'>Add Detail Information regarding the Course</h2>
             <div  className='space-x-2 space-y-2'>
-               <button className='bg-black text-white px-4 py-2 rounded-md' onClick={()=>navigate(`/createlecture/${selectCourse?._id}`)}>Go to Lecture page</button>
+               <button className='bg-black text-white px-4 py-2 rounded-md' onClick={() => navigate(`/createlecture/${courseId}`)}>Go to Lecture page</button>
             </div>
         </div>
         {/* form details */}
@@ -129,7 +129,7 @@ function EditCourses(){
           <h2 className="text-lg font-medium mb-4">Basic Course Information</h2>
           <div className="flex gap-2 mt-2">
             {!isPublished?<button className='bg-green-100 text-green-600 px-4 py-2 rounded-md border-1'onClick={()=>setIsPublished(prev=>!prev)}>Click to Publish</button>:<button className='bg-red-100 text-red-600 px-4 py-2 rounded-md border-1'onClick={()=>setIsPublished(prev=>!prev)}>Click to UnPublish</button>}
-            <button className='bg-red-500 text-white px-4 py-2 rounded-md'onClick={handleRemoveCourse}>Remove Course</button>
+            <button className='bg-red-500 text-white px-4 py-2 rounded-md' onClick={handleRemoveCourse} disabled={loading1}>{loading1 ? <ClipLoader size={20} color="white" /> : "Remove Course"}</button>
             </div>
            
            <form className="space-y-6" onSubmit={(e)=>e.preventDefault()}>
