@@ -18,22 +18,28 @@ function SearchwithAi() {
         let utterance=new SpeechSynthesisUtterance(message)
         window.speechSynthesis.speak(utterance)
     }
-    const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    const handleSearch=async()=>{
+      const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
     if(!SpeechRecognition){
   toast.error("Speech recognition not supported");
 }
 
     const recognition=SpeechRecognition ? new SpeechRecognition() : null;
    
-    const handleSearch=async()=>{
+       recognition.lang = "en-IN";
+        recognition.continuous = false;
+        recognition.interimResults = false;
         if(!recognition)
              return ;
         setListening(true);
         recognition.start()
         startSound.play()
         recognition.onresult=async(e)=>{
-           const transcript=e.results[0][0].transcript.trim()
+           let transcript=e.results[0][0].transcript
+           transcript=transcript.toUpperCase().replace(/[^\w\s]/gi, "").trim();
            setInput(transcript)
+            recognition.stop();
            await handleRecommendation(transcript)
         }
     }
@@ -58,7 +64,7 @@ function SearchwithAi() {
     <div className='min-h-screen bg-gradient-to-br from-black to-gray-900 text-white flex flex-col items-center px-4 py-16'>
         {/*search container */}
         <div className='bg-white shadow-xl rounded-3xl p-6 sm:p-8 w-full max-w-2xl text-center relative'>
-          <FaArrowLeftLong className='text-[black] w-[22px] h-[22px] cursor-pointer absolute'/>
+          <FaArrowLeftLong className='text-[black] w-[22px] h-[22px] cursor-pointer absolute' onClick={()=>navigate("/")}/>
           <h1 className='text-2xl sm:text-3xl font-bold text-gray-600 mb-6 flex items-center justify-center gap-2'><img src={ai} alt="" className='w-8 h-8 sm:w-[30px] sm:h-[30px]'/>Search with <span className='text-[#CB99C7]'>AI</span></h1>
 
           <div className='flex items-center bg-gray-700 rounded-full overflow-hidden shadow-lg relative w-full'>

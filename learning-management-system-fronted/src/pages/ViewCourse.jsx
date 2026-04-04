@@ -99,6 +99,7 @@ function ViewCourse(){
             const verify=await axios.post( serverUrl+"/api/order/verifypayment",{...response,courseId,userId:userData?._id},{withCredentials:true});
             setIsEnrolled(true);
             toast.success(verify.data.message);
+            window.location.reload();
           }catch(error){
             toast.error(error.response?.data?.message);
           }
@@ -218,19 +219,19 @@ function ViewCourse(){
               {selectedCourse.lectures?.map((lecture,index)=>(
                 <button
                   key={index}
-                  disabled={!lecture.isPreviewFree}
+                  disabled={!lecture.isPreviewFree && !isEnrolled}
                   onClick={()=>{
-                    if(lecture.isPreviewFree){
+                    if(lecture.isPreviewFree || isEnrolled){
                       setSelectedLecture(lecture);
                     }
                   }}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg border transition-all duration-200 text-left ${
-                    lecture.isPreviewFree
+                    (lecture.isPreviewFree || isEnrolled)
                       ?"hover:bg-gray-200 cursor-pointer border-gray-300"
                       :"cursor-not-allowed opacity-60 border-gray-200"
                   } ${selectedLecture?._id===lecture?._id?" bg-gray-100 border-gray-400":""}`}
                 >
-                  <span className="text-lg text-gray-700">{lecture.isPreviewFree?<FaPlayCircle/>:<FaLock/>}</span>
+                  <span className="text-lg text-gray-700">{(lecture.isPreviewFree || isEnrolled)?<FaPlayCircle/>:<FaLock/>}</span>
                   <span className="text-sm font-medium text-gray-800">{lecture?.lectureTitle}</span>
                 </button>
               ))}
@@ -240,15 +241,16 @@ function ViewCourse(){
           <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border border-gray-200">
             <div className="aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center">
               {/* FIX 4: key prop forces remount + safe videoSrc */}
-              {videoSrc?(
-                <video
-                  key={selectedLecture?._id}
-                  className="w-full h-full object-cover"
-                  src={videoSrc}
-                  controls
-                  autoPlay
-                />
-              ):(
+              {(isEnrolled || selectedLecture?.isPreviewFree) ? (videoSrc ? (
+               <video
+               key={selectedLecture?._id}
+               className="w-full h-full object-cover"
+               src={videoSrc}
+               controls
+               autoPlay
+              />
+             ):(<span className="text-white text-sm">No video available</span>)
+             ):(
                 <span className="text-white text-sm">{selectedLecture?"No video available for this lecture":"Select a preview lecture to watch"}</span>
               )}
             </div>
