@@ -9,9 +9,6 @@ A production-ready full-stack Learning Management System (LMS) where **Educators
 ---
 
 ## 🔗 Live Links
-
-- 🌐 **Frontend (Live)**: https://your-frontend.onrender.com
-- 🔧 **Backend API**: https://your-backend.onrender.com  
 - 📂LIVE DEMO LiNK:-https://learning-management-system-1-68gx.onrender.com
 
 ---
