@@ -93,7 +93,7 @@ Integrated with Razorpay for secure transactions:
 
 ## 📂 Project Structure
 
-
+```
 learning-management-system/
 │
 ├── learning-management-system-Backend/ # Backend (Node.js + Express)
@@ -121,7 +121,7 @@ learning-management-system/
 │
 ├── .gitignore
 └── README.md
-
+```
 
 ---
 
