@@ -1,8 +1,11 @@
 # 🚀 Learning Management System (LMS)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Tech](https://img.shields.io/badge/stack-MERN-green)
-![Status](https://img.shields.io/badge/status-Production--Ready-brightgreen)
+![Stack](https://img.shields.io/badge/stack-MERN-blueviolet)
+![Frontend](https://img.shields.io/badge/frontend-React.js-blue)
+![Backend](https://img.shields.io/badge/backend-Node.js-green)
+![Database](https://img.shields.io/badge/database-MongoDB-darkgreen)
+![Status](https://img.shields.io/badge/status-Active-success)
 
 A production-ready full-stack Learning Management System (LMS) where **Educators create & sell courses** and **Students purchase & learn**, powered by secure payment integration.
 
@@ -89,3 +92,43 @@ Integrated with Razorpay for secure transactions:
 ---
 
 ## 📂 Project Structure
+
+
+learning-management-system/
+│
+├── learning-management-system-Backend/ # Backend (Node.js + Express)
+│ ├── config/ # Database & environment configuration
+│ ├── controller/ # Request handling logic
+│ ├── middleware/ # Authentication & error handling
+│ ├── model/ # Database schemas
+│ ├── route/ # API routes
+│ ├── public/ # Static files
+│ ├── index.js # Entry point
+│ ├── package.json
+│ └── package-lock.json
+│
+├── learning-management-system-fronted/ # Frontend (React + Vite)
+│ ├── public/ # Static assets
+│ ├── src/ # Main source code
+│ ├── utils/ # Helper functions
+│ ├── index.html
+│ ├── vite.config.js
+│ ├── eslint.config.js
+│ ├── package.json
+│ └── package-lock.json
+│
+├── .gitignore
+└── README.md
+
+
+---
+
+## 🧠 Architecture Overview
+
+- **Frontend (React)**: Responsible for UI/UX, state management, and API communication  
+- **Backend (Node.js + Express)**: Handles business logic, authentication, authorization, and API endpoints  
+- **Database (MongoDB)**: Stores user data, courses, enrollments, and transactions  
+- **Caching (Redis)**: Improves performance by caching frequently accessed data  
+- **Payment Gateway (Razorpay)**: Handles secure course purchase transactions  
+
+
