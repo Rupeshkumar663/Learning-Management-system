@@ -57,9 +57,15 @@ Integrated with Razorpay for secure transactions:
 - Order creation from backend  
 - Secure payment flow  
 - Signature verification  
-- Enrollment after successful payment  
+- Enrollment after successful payment
+
+## 🤖 Development Assistance
+
+- Utilized AI tools (Google Gemini) to assist in course content discovery, structuring modules, and enhancing development workflow  
+- Used AI for idea generation, debugging, and improving productivity while maintaining full control over implementation  
 
 ---
+
 
 ## 🧱 Tech Stack
 
