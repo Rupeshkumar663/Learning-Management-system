@@ -107,6 +107,8 @@ learning-management-system/
 │ ├── package.json
 │ └── package-lock.json
 │
+
+
 ├── learning-management-system-fronted/ # Frontend (React + Vite)
 │ ├── public/ # Static assets
 │ ├── src/ # Main source code
